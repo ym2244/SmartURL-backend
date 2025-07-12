@@ -1,5 +1,52 @@
 # SmartUrl API Documentation
 
+---
+
+## Table of Contents
+
+- [SmartUrl API Documentation](#smarturl-api-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [API Endpoints](#api-endpoints)
+    - [1. User Management Endpoints](#1-user-management-endpoints)
+      - [1.1. Register User (Username/Password)](#11-register-user-usernamepassword)
+      - [1.2. Register with Google](#12-register-with-google)
+      - [1.3. Login (Username/Password)](#13-login-usernamepassword)
+      - [1.4. Refresh Token](#14-refresh-token)
+      - [1.5. Logout (Client-side)](#15-logout-client-side)
+      - [1.6. Get User Profile](#16-get-user-profile)
+      - [1.7. Update User Profile](#17-update-user-profile)
+      - [1.8. Request Password Reset](#18-request-password-reset)
+      - [1.9. Confirm Password Reset](#19-confirm-password-reset)
+      - [1.10. Change Password (Logged-in User)](#110-change-password-logged-in-user)
+    - [2. Short URL Endpoints](#2-short-url-endpoints)
+      - [2.1. Create Short URL](#21-create-short-url)
+      - [2.2. Redirect from Short URL](#22-redirect-from-short-url)
+      - [2.3. Set or Update Alias](#23-set-or-update-alias)
+      - [2.4. Get Alias](#24-get-alias)
+      - [2.5. Remove Alias](#25-remove-alias)
+    - [3. QR Code Endpoints](#3-qr-code-endpoints)
+      - [3.1. Generate QR Code](#31-generate-qr-code)
+      - [3.2. Get QR Code Image](#32-get-qr-code-image)
+      - [3.3. Redirect from QR Code](#33-redirect-from-qr-code)
+    - [4. Barcode Endpoints](#4-barcode-endpoints)
+      - [4.1. Generate Barcode](#41-generate-barcode)
+      - [4.2. Get Barcode Image](#42-get-barcode-image)
+      - [4.3. Redirect from Barcode](#43-redirect-from-barcode)
+    - [5. History Endpoints](#5-history-endpoints)
+      - [5.1. Get URL History](#51-get-url-history)
+      - [5.2. Get QR Code History](#52-get-qr-code-history)
+      - [5.3. Get Barcode History](#53-get-barcode-history)
+    - [6. Analytics Endpoints](#6-analytics-endpoints)
+      - [6.1. Get Short URL Analytics](#61-get-short-url-analytics)
+      - [6.2. Get QR Code Analytics](#62-get-qr-code-analytics)
+      - [6.3. Get Barcode Analytics](#63-get-barcode-analytics)
+      - [6.4. Get Aggregated Analytics](#64-get-aggregated-analytics)
+  - [Environment Variables](#environment-variables)
+  - [Website Title Extraction](#website-title-extraction)
+
+---
+
 ## Overview
 
 This document outlines the API endpoints for the SmartUrl service. SmartUrl allows users to:
@@ -40,6 +87,8 @@ This document outlines the API endpoints for the SmartUrl service. SmartUrl allo
 
 Each resource (URL, QR code, barcode) automatically extracts and stores the title of the target website for better context in the history and analytics views.
 
+---
+
 ## API Endpoints
 
 ### 1. User Management Endpoints
@@ -56,8 +105,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 
 ```json
 {
-  "username": "johndoe",
-  "email": "john@example.com",
+  "username": "lydiagao",
+  "email": "lydia@example.com",
   "password": "securepassword123"
 }
 ```
@@ -67,11 +116,13 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 ```json
 {
   "id": 42,
-  "username": "johndoe",
-  "email": "john@example.com",
+  "username": "lydiagao",
+  "email": "lydia@example.com",
   "created_at": "2023-05-15T14:30:00Z"
 }
 ```
+
+---
 
 #### 1.2. Register with Google
 
@@ -94,12 +145,14 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 ```json
 {
   "id": 43,
-  "username": "janedoe",
-  "email": "jane@example.com",
+  "username": "lydiagao",
+  "email": "lydia@example.com",
   "created_at": "2023-05-15T14:35:00Z",
   "auth_provider": "google"
 }
 ```
+
+---
 
 #### 1.3. Login (Username/Password)
 
@@ -113,7 +166,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 
 ```json
 {
-  "username": "johndoe",
+  "username": "lydiagao",
   "password": "securepassword123"
 }
 ```
@@ -128,11 +181,13 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "expires_in": 3600,
   "user": {
     "id": 42,
-    "username": "johndoe",
-    "email": "john@example.com"
+    "username": "lydiagao",
+    "email": "lydia@example.com"
   }
 }
 ```
+
+---
 
 #### 1.4. Refresh Token
 
@@ -160,11 +215,15 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 #### 1.5. Logout (Client-side)
 
 **Purpose:** Client removes tokens from storage. No server-side action required with pure JWT.
 
 **Note:** In a pure JWT implementation, logout is handled client-side by removing the tokens from storage. The frontend application should delete both the access token and refresh token from localStorage or cookies when the user logs out, and then redirect to the login page.
+
+---
 
 #### 1.6. Get User Profile
 
@@ -183,8 +242,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 ```json
 {
   "id": 42,
-  "username": "johndoe",
-  "email": "john@example.com",
+  "username": "lydiagao",
+  "email": "lydia@example.com",
   "created_at": "2023-05-15T14:30:00Z",
   "stats": {
     "urls_created": 15,
@@ -193,6 +252,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   }
 }
 ```
+
+---
 
 #### 1.7. Update User Profile
 
@@ -210,8 +271,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 
 ```json
 {
-  "username": "johndoe_new",
-  "email": "new_email@example.com"
+  "username": "lydiagao_new",
+  "email": "new_lydia@example.com"
 }
 ```
 
@@ -220,11 +281,13 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 ```json
 {
   "id": 42,
-  "username": "johndoe_new",
-  "email": "new_email@example.com",
+  "username": "lydiagao_new",
+  "email": "new_lydia@example.com",
   "created_at": "2023-05-15T14:30:00Z"
 }
 ```
+
+---
 
 #### 1.8. Request Password Reset
 
@@ -238,8 +301,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 
 ```json
 {
-  "email": "user@example.com",
-  "username": "alice"
+  "email": "lydia@example.com",
+  "username": "lydiagao"
 }
 ```
 
@@ -250,6 +313,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "message": "Password reset email sent."
 }
 ```
+
+---
 
 #### 1.9. Confirm Password Reset
 
@@ -275,6 +340,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "message": "Password has been reset successfully."
 }
 ```
+
+---
 
 #### 1.10. Change Password (Logged-in User)
 
@@ -304,6 +371,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "message": "Password changed successfully."
 }
 ```
+
+---
 
 ### 2. Short URL Endpoints
 
@@ -347,6 +416,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 #### 2.2. Redirect from Short URL
 
 **Purpose:** Redirect visitors to the original URL when they use a short link.
@@ -365,6 +436,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 
 - 307 Temporary Redirect to the original URL
 - 404 Not Found if the short code doesn't exist
+
+---
 
 #### 2.3. Set or Update Alias
 
@@ -400,6 +473,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 #### 2.4. Get Alias
 
 **Purpose:** Retrieve the custom alias for a given short code, if one exists.
@@ -421,6 +496,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 #### 2.5. Remove Alias
 
 **Purpose:** Delete the custom alias and revert to the default randomly generated code.
@@ -434,6 +511,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 - `Authorization: Bearer {access_token}`
 
 **Response:** (204 No Content)
+
+---
 
 ### 3. QR Code Endpoints
 
@@ -471,6 +550,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 #### 3.2. Get QR Code Image
 
 **Purpose:** Retrieve the generated QR code image.
@@ -483,6 +564,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 
 - QR code image (PNG format)
 - 404 Not Found if the QR code ID doesn't exist
+
+---
 
 #### 3.3. Redirect from QR Code
 
@@ -502,6 +585,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 
 - 307 Temporary Redirect to the original URL
 - 404 Not Found if the QR code ID doesn't exist
+
+---
 
 ### 4. Barcode Endpoints
 
@@ -539,6 +624,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 #### 4.2. Get Barcode Image
 
 **Purpose:** Retrieve the generated barcode image.
@@ -551,6 +638,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 
 - Barcode image (PNG format)
 - 404 Not Found if the barcode ID doesn't exist
+
+---
 
 #### 4.3. Redirect from Barcode
 
@@ -570,6 +659,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 
 - 307 Temporary Redirect to the original URL
 - 404 Not Found if the barcode ID doesn't exist
+
+---
 
 ### 5. History Endpoints
 
@@ -620,6 +711,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 #### 5.2. Get QR Code History
 
 **Purpose:** Retrieve all QR codes created by the current user with pagination.
@@ -666,6 +759,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   ]
 }
 ```
+
+---
 
 #### 5.3. Get Barcode History
 
@@ -714,6 +809,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 ### 6. Analytics Endpoints
 
 #### 6.1. Get Short URL Analytics
@@ -739,7 +836,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "created_at": "2023-05-15T14:30:00Z",
   "owner": {
     "id": 42,
-    "username": "johndoe"
+    "username": "lydiagao"
   },
   "clicks": 42,
   "click_data": {
@@ -772,6 +869,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 #### 6.2. Get QR Code Analytics
 
 **Purpose:** Retrieve detailed analytics about a QR code.
@@ -795,7 +894,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "created_at": "2023-05-15T14:30:00Z",
   "owner": {
     "id": 42,
-    "username": "johndoe"
+    "username": "lydiagao"
   },
   "scans": 35,
   "scan_data": {
@@ -816,6 +915,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   }
 }
 ```
+
+---
 
 #### 6.3. Get Barcode Analytics
 
@@ -840,7 +941,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "created_at": "2023-05-15T14:30:00Z",
   "owner": {
     "id": 42,
-    "username": "johndoe"
+    "username": "lydiagao"
   },
   "scans": 28,
   "scan_data": {
@@ -861,6 +962,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   }
 }
 ```
+
+---
 
 #### 6.4. Get Aggregated Analytics
 
@@ -928,6 +1031,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
+---
+
 ## Environment Variables
 
 The application requires the following environment variables to be set:
@@ -942,6 +1047,8 @@ The application requires the following environment variables to be set:
 | JWT_SECRET         | Secret key for signing JWTs         | None            |
 | JWT_ACCESS_EXPIRE  | Access token expiration in seconds  | 3600 (1 hour)   |
 | JWT_REFRESH_EXPIRE | Refresh token expiration in seconds | 604800 (7 days) |
+
+---
 
 ## Website Title Extraction
 

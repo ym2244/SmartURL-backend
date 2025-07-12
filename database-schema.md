@@ -1,6 +1,27 @@
 # SmartUrl Database Schema
 
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Database Tables](#database-tables)
+  - [Table: users](#table-users)
+  - [Table: password_reset_tokens](#table-password_reset_tokens)
+  - [Table: urls](#table-urls)
+  - [Table: qrcodes](#table-qrcodes)
+  - [Table: barcodes](#table-barcodes)
+  - [Table: analytics](#table-analytics)
+- [Key Relationships](#key-relationships)
+- [Notes on Implementation](#notes-on-implementation)
+
+---
+
+## Overview
+
 This document outlines the database schema for the SmartUrl service, which includes tables for user management, URL shortening, QR code generation, barcode generation, and analytics tracking.
+
+---
 
 ## Database Tables
 
@@ -41,6 +62,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE INDEX IF NOT EXISTS idx_auth_provider ON users (auth_provider, auth_provider_id);
 ```
 
+---
+
 ### Table: password_reset_tokens
 
 | Column     | Type      | Constraints                                     | Description                                   |
@@ -72,6 +95,8 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
 CREATE INDEX IF NOT EXISTS idx_prt_user ON password_reset_tokens (user_id);
 CREATE INDEX IF NOT EXISTS idx_prt_expires ON password_reset_tokens (expires_at);
 ```
+
+---
 
 ### Table: urls
 
@@ -109,6 +134,8 @@ CREATE INDEX IF NOT EXISTS idx_urls_user ON urls (user_id);
 CREATE INDEX IF NOT EXISTS idx_short_code ON urls (short_code);
 ```
 
+---
+
 ### Table: qrcodes
 
 | Column       | Type      | Constraints       | Description                                                    |
@@ -145,6 +172,8 @@ CREATE INDEX IF NOT EXISTS idx_qrcodes_user ON qrcodes (user_id);
 CREATE INDEX IF NOT EXISTS idx_qr_code_id ON qrcodes (qr_code_id);
 ```
 
+---
+
 ### Table: barcodes
 
 | Column       | Type      | Constraints       | Description                                                    |
@@ -180,6 +209,8 @@ CREATE TABLE IF NOT EXISTS barcodes (
 CREATE INDEX IF NOT EXISTS idx_barcodes_user ON barcodes (user_id);
 CREATE INDEX IF NOT EXISTS idx_barcode_id ON barcodes (barcode_id);
 ```
+
+---
 
 ### Table: analytics
 
@@ -232,6 +263,8 @@ CREATE INDEX IF NOT EXISTS idx_device_type ON analytics (device_type);
 CREATE INDEX IF NOT EXISTS idx_country ON analytics (country);
 ```
 
+---
+
 ## Key Relationships
 
 **Relationship 1: User-to-Resource**
@@ -258,6 +291,8 @@ CREATE INDEX IF NOT EXISTS idx_country ON analytics (country);
 - Implementation: Through `user_id` foreign key in `password_reset_tokens` table
 - Token lifecycle: Each token record tracks creation time (`created_at`), expiry (`expires_at`), and usage status (`used`)
 - Deletion behavior: When a user is deleted, all their related password reset tokens are also removed (ON DELETE CASCADE)
+
+---
 
 ## Notes on Implementation
 
