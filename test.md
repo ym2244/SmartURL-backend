@@ -1,327 +1,43 @@
-### 1. User Management Endpoints
-
-#### 1.8. Request Password Reset
-
-**Purpose:** Start a password-reset flow by sending a reset link to the user’s email.
-
-**Endpoint:** `/auth/password-reset/request`
-
-**Method:** `POST`
-
-**Request Body:**
-
-```json
-{
-  "email": "user@example.com",
-  "username": "alice"      // optional, for extra verification
-}
-```
-
-**Response:** (200 OK)
-
-```json
-{
-  "message": "Password reset email sent."
-}
-```
-
-**Example:**
-
-* If the email corresponds to a registered user, you will receive:
-
-  ```json
-  { "message": "Password reset email sent." }
-  ```
-* If not registered, you may still receive the same response (to avoid user enumeration).
-
----
-
-#### 1.9. Confirm Password Reset
-
-**Purpose:** Complete password reset using the token sent by email.
-
-**Endpoint:** `/auth/password-reset/confirm`
-
-**Method:** `POST`
-
-**Request Body:**
-
-```json
-{
-  "token": "abcdef1234567890",
-  "new_password": "NewP@ssw0rd!"
-}
-```
-
-**Response:** (200 OK)
-
-```json
-{
-  "message": "Password has been reset successfully."
-}
-```
-
-**Example:**
-
-* Valid token & password: returns success message.
-* Invalid or expired token: `400 Bad Request` with:
-
-  ```json
-  { "error": { "code": "INVALID_TOKEN", "message": "Token is invalid or expired." } }
-  ```
-
----
-
-#### 1.10. Change Password (Logged-in User)
-
-**Purpose:** Allow a signed-in user to update their password.
-
-**Endpoint:** `/users/me/password`
-
-**Method:** `PATCH`
-
-**Headers:**
-
-* `Authorization: Bearer {access_token}`
-
-**Request Body:**
-
-```json
-{
-  "current_password": "OldP@ss1",
-  "new_password": "NewP@ssw0rd!"
-}
-```
-
-**Response:** (200 OK)
-
-```json
-{
-  "message": "Password changed successfully."
-}
-```
-
-**Example:**
-
-* Correct current password: success.
-* Wrong current password: `403 Forbidden` with:
-
-  ```json
-  { "error": { "code": "INVALID_CREDENTIALS", "message": "Current password is incorrect." } }
-  ```
-
----
-
-### 2. Short URL Endpoints
-
-#### 2.1. Create Short URL
-
-**Purpose:** Convert a long URL into a short URL with a randomly generated code—or with a user-supplied alias. Automatically extracts website title.
-
-**Endpoint:** `/shorten`
-
-**Method:** `POST`
-
-**Headers:**
-
-* `Authorization: Bearer {access_token}` (optional, for authenticated users)
-
-**Request Body:**
-
-```json
-{
-  "target_url": "https://example.com/your/long/url",
-  "alias": "your-custom-alias"    // optional: custom alias (3–30 chars, letters/numbers/_/-)
-}
-```
-
-**Response:** (201 Created)
-
-```json
-{
-  "original_url": "https://example.com/your/long/url",
-  "short_code": "abc123",
-  "alias": "your-custom-alias",   // present if alias provided
-  "short_url": "https://your-domain.com/your-custom-alias",
-  "title": "Example Website Homepage",
-  "clicks": 0,
-  "user_id": 42,
-  "created_at": "2025-07-12T00:00:00Z"
-}
-```
-
-**Examples:**
-
-* **Without alias:**
-
-  ```bash
-  POST /shorten
-  { "target_url": "https://example.com" }
-  ```
-
-  returns `201 Created` with random `short_code` and no `alias` field.
-
-* **With alias:**
-
-  ```bash
-  POST /shorten
-  { "target_url": "https://example.com", "alias": "promo" }
-  ```
-
-  returns `201 Created` with `alias: "promo"` and `short_url: "https://your-domain.com/promo"`.
-
-**Error Responses:**
-
-* 400 Bad Request if `alias` or `target_url` is invalid.
-* 409 Conflict if `alias` is already taken.
-
----
-
-#### 2.3. Set or Update Alias
-
-**Purpose:** Assign or change a custom alias for a short code. Aliases can be set either at creation time (see Create Short URL) or updated later using this endpoint.
-
-**Endpoint:** `/urls/{shortCode}`
-
-**Method:** `PATCH`
-
-**Headers:**
-
-* `Authorization: Bearer {access_token}`
-
-**Request Body:**
-
-```json
-{
-  "alias": "your-custom-alias"
-}
-```
-
-**Response:** (200 OK)
-
-```json
-{
-  "original_url": "https://example.com/your/long/url",
-  "short_code": "abc123",
-  "alias": "your-custom-alias",
-  "short_url": "https://your-domain.com/your-custom-alias",
-  "clicks": 0,
-  "user_id": 42,
-  "created_at": "2025-07-12T00:00:00Z"
-}
-```
-
-**Examples:**
-
-* **Successful update:**
-
-  ```bash
-  PATCH /urls/abc123
-  { "alias": "promo2025" }
-  ```
-
-  returns `200 OK` with new alias in response body.
-
-* **Alias format invalid:**
-
-  ```bash
-  PATCH /urls/abc123
-  { "alias": "!*invalid*" }
-  ```
-
-  returns `400 Bad Request`:
-
-  ```json
-  { "error": { "code": "INVALID_ALIAS_FORMAT", "message": "Alias must be 3–30 characters, letters/numbers/_/- only." } }
-  ```
-
-* **Alias already taken:**
-
-  ```bash
-  PATCH /urls/abc123
-  { "alias": "existingAlias" }
-  ```
-
-  returns `409 Conflict`:
-
-  ```json
-  { "error": { "code": "ALIAS_TAKEN", "message": "Alias 'existingAlias' is already in use." } }
-  ```
-
----
-
-#### 2.4. Get Alias
-
-**Purpose:** Retrieve the custom alias for a given short code, if one exists.
-
-**Endpoint:** `/urls/{shortCode}/alias`
-
-**Method:** `GET`
-
-**Headers:**
-
-* `Authorization: Bearer {access_token}`
-
-**Response:** (200 OK)
-
-```json
-{
-  "short_code": "abc123",
-  "alias": "your-custom-alias"
-}
-```
-
-**Example:**
-
-* If no alias set, returns `alias: null`.
-
----
-
-#### 2.5. Remove Alias
-
-**Purpose:** Delete the custom alias and revert to the default randomly generated code.
-
-**Endpoint:** `/urls/{shortCode}/alias`
-
-**Method:** `DELETE`
-
-**Headers:**
-
-* `Authorization: Bearer {access_token}`
-
-**Response:** (204 No Content)
-
-**Example:**
-
-* Upon successful deletion, accessing `/urls/abc123/alias` returns:
-
-  ```json
-  { "short_code": "abc123", "alias": null }
-  ```
-
 This document outlines the database schema for the SmartUrl service, including the new table for password reset tokens.
 
 ## Database Tables
 
 ### Table: users
 
-| Column             | Type      | Constraints                         | Description                                |
-| ------------------ | --------- | ----------------------------------- | ------------------------------------------ |
-| id                 | SERIAL    | PRIMARY KEY                         | Unique identifier for each user            |
-| username           | TEXT      | UNIQUE, NOT NULL                    | User's chosen username                     |
-| email              | TEXT      | UNIQUE, NOT NULL                    | User's email address                       |
-| password\_hash     | TEXT      |                                     | Hashed password (NULL for OAuth users)     |
-| auth\_provider     | TEXT      |                                     | Authentication provider (NULL or "google") |
-| auth\_provider\_id | TEXT      |                                     | Provider-specific user ID                  |
-| created\_at        | TIMESTAMP | NOT NULL DEFAULT CURRENT\_TIMESTAMP | When the user was created                  |
-| updated\_at        | TIMESTAMP | NOT NULL DEFAULT CURRENT\_TIMESTAMP | When the user was last updated             |
+| Column             | Type      | Constraints      | Description                                                        |
+| ------------------ | --------- | ---------------- | ------------------------------------------------------------------ |
+| id                 | SERIAL    | PRIMARY KEY      | Unique identifier for each user                                    |
+| username           | TEXT      | UNIQUE, NOT NULL | User's chosen username                                             |
+| email              | TEXT      | UNIQUE, NOT NULL | User's email address                                               |
+| password\_hash     | TEXT      |                  | Hashed password (NULL for OAuth users)                             |
+| auth\_provider     | TEXT      |                  | Authentication provider (NULL for local auth, "google" for Google) |
+| auth\_provider\_id | TEXT      |                  | Provider-specific user ID                                          |
+| created\_at        | TIMESTAMP | NOT NULL         | When the user was created                                          |
+| updated\_at        | TIMESTAMP | NOT NULL         | When the user was last updated                                     |
 
 **Indexes:**
 
 * PRIMARY KEY on `id`
 * UNIQUE INDEX on `username`
 * UNIQUE INDEX on `email`
-* INDEX on `(auth_provider, auth_provider_id)`
+* INDEX on `auth_provider` and `auth_provider_id`
+
+**SQL for creating the table:**
+
+```sql
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT,
+    auth_provider TEXT,
+    auth_provider_id TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_auth_provider ON users (auth_provider, auth_provider_id);
+```
 
 ---
 
@@ -330,7 +46,7 @@ This document outlines the database schema for the SmartUrl service, including t
 | Column      | Type      | Constraints                                     | Description                                   |
 | ----------- | --------- | ----------------------------------------------- | --------------------------------------------- |
 | id          | SERIAL    | PRIMARY KEY                                     | Unique identifier for each reset token record |
-| user\_id    | INTEGER   | NOT NULL REFERENCES users(id) ON DELETE CASCADE | The user requesting the reset                 |
+| user\_id    | INTEGER   | NOT NULL REFERENCES users(id) ON DELETE CASCADE | User requesting the reset                     |
 | token       | TEXT      | NOT NULL UNIQUE                                 | Secure random token                           |
 | expires\_at | TIMESTAMP | NOT NULL                                        | Expiration timestamp for this token           |
 | used        | BOOLEAN   | NOT NULL DEFAULT FALSE                          | Whether the token has been used               |
@@ -340,6 +56,22 @@ This document outlines the database schema for the SmartUrl service, including t
 
 * INDEX on `user_id`
 * INDEX on `expires_at`
+
+**SQL for creating the table:**
+
+```sql
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    token TEXT NOT NULL UNIQUE,
+    expires_at TIMESTAMP NOT NULL,
+    used BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_prt_user ON password_reset_tokens (user_id);
+CREATE INDEX IF NOT EXISTS idx_prt_expires ON password_reset_tokens (expires_at);
+```
 
 ---
 
@@ -429,3 +161,72 @@ This document outlines the database schema for the SmartUrl service, including t
 * INDEX on `event_date`
 * INDEX on `device_type`
 * INDEX on `country`
+
+## Key Relationships
+
+**Relationship 1: User-to-Resource**
+
+* Type: One-to-Many relationship
+* Description: A single user can create multiple resources (URLs, QR codes, barcodes)
+* Implementation: Through `user_id` foreign key in resource tables
+* Creation requirement: All resources must be created by authenticated users (enforced at application level)
+* Deletion behavior: When a user is deleted, resources remain but user association is removed (SET NULL)
+* Resource persistence: All URLs, QR codes, and barcodes continue to function normally even after the creating user is deleted
+
+**Relationship 2: Resource-to-Analytics**
+
+* Type: One-to-Many relationship
+* Description: Each resource (URL, QR code, barcode) can have multiple analytics entries
+* Implementation: Through `resource_type` and `resource_id` fields in the analytics table
+* Event tracking: Each row in the analytics table represents a single interaction event (one click or scan)
+* Data captured: The analytics table stores detailed information about each interaction with a resource
+
+**Relationship 3: User-to-PasswordResetTokens**
+
+* Type: One-to-Many relationship
+* Description: A single user may request multiple password reset tokens
+* Implementation: Through `user_id` foreign key in `password_reset_tokens` table
+* Token lifecycle: Each token record tracks creation time (`created_at`), expiry (`expires_at`), and usage status (`used`)
+* Deletion behavior: When a user is deleted, all their related password reset tokens are also removed (ON DELETE CASCADE)
+
+## Notes on Implementation
+
+1. **QR Codes and Barcodes Generation**
+
+   * The actual QR code and barcode images are generated on-demand
+   * No image data is stored in the database, only the metadata
+   * Images are created when requested through the image endpoints
+
+2. **Authentication**
+
+   * Supports both local authentication (username/password) and OAuth (Google)
+   * Passwords are stored as secure bcrypt hashes, never as plaintext
+   * JWT authentication is used instead of sessions
+
+3. **Resource Persistence**
+
+   * All resources require user authentication to create
+   * Resources persist even if the creating user's account is deleted
+   * This ensures that shared links and codes remain functional
+
+4. **Website Title Extraction**
+
+   * When a resource is created, the system attempts to extract the title from the target website's HTML
+   * If extraction fails (due to network issues, invalid URL, or missing title tag), the title field may be NULL
+   * Titles provide context about the destination without requiring manual entry
+
+5. **Database Indexing**
+
+   * Indexes are used to improve query performance, especially for lookups and analytics
+   * Compound indexes like `idx_resource` optimize common query patterns
+   * Each analytics event (click or scan) is stored as a separate row for detailed analysis
+
+6. **Password Management Flows**
+
+   * **Forgot Password (Not Logged In):**
+
+     * Generate a secure `token` in `password_reset_tokens`, email a reset link containing this token
+     * On confirmation, verify `token`, `expires_at > now()`, and `used = false`, then update password and set `used = true`
+   * **Change Password (Logged In):**
+
+     * Users provide `current_password` and `new_password` via `/users/me/password`, then password is updated immediately without email verification
