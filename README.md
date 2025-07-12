@@ -4,9 +4,10 @@ SmartURL is a simple and powerful URL shortening service with support for custom
 
 ## Technology Stack
 
-* **Backend:** FastAPI, PostgreSQL, SQLAlchemy, JWT authentication
-* **Frontend:** Next.js (React), React Query, Tailwind CSS
-* **Infrastructure:** Docker, GitHub Actions, Render
+* **Backend:** Python, FastAPI, PostgreSQL, SQLAlchemy, JWT authentication
+* **Frontend:** Next.js (React), Context API/Redux Toolkit, 
+* **UI:** Tailwind CSS, Shadcn UI
+* **Infrastructure:** Docker, GitHub Actions, Render, AWS
 
 ## Documentation
 
