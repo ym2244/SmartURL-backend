@@ -118,7 +118,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "id": 42,
   "username": "lydiagao",
   "email": "lydia@example.com",
-  "created_at": "2023-05-15T14:30:00Z"
+  "created_at": "2025-05-15T14:30:00Z"
 }
 ```
 
@@ -147,7 +147,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "id": 43,
   "username": "lydiagao",
   "email": "lydia@example.com",
-  "created_at": "2023-05-15T14:35:00Z",
+  "created_at": "2025-05-15T14:35:00Z",
   "auth_provider": "google"
 }
 ```
@@ -244,7 +244,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "id": 42,
   "username": "lydiagao",
   "email": "lydia@example.com",
-  "created_at": "2023-05-15T14:30:00Z",
+  "created_at": "2025-05-15T14:30:00Z",
   "stats": {
     "urls_created": 15,
     "qr_codes_created": 8,
@@ -283,7 +283,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "id": 42,
   "username": "lydiagao_new",
   "email": "new_lydia@example.com",
-  "created_at": "2023-05-15T14:30:00Z"
+  "created_at": "2025-05-15T14:30:00Z"
 }
 ```
 
@@ -412,7 +412,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "title": "Example Website Homepage",
   "clicks": 0,
   "user_id": 42,
-  "created_at": "2023-05-15T14:30:00Z"
+  "created_at": "2025-05-15T14:30:00Z"
 }
 ```
 
@@ -546,7 +546,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "title": "Example Website Homepage",
   "scans": 0,
   "user_id": 42,
-  "created_at": "2023-05-15T14:30:00Z"
+  "created_at": "2025-05-15T14:30:00Z"
 }
 ```
 
@@ -620,7 +620,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "title": "Example Website Homepage",
   "scans": 0,
   "user_id": 42,
-  "created_at": "2023-05-15T14:30:00Z"
+  "created_at": "2025-05-15T14:30:00Z"
 }
 ```
 
@@ -697,7 +697,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
       "short_url": "http://localhost:8000/abc123",
       "title": "Example Website Homepage",
       "clicks": 42,
-      "created_at": "2023-05-15T14:30:00Z"
+      "created_at": "2025-05-15T14:30:00Z"
     },
     {
       "original_url": "https://example.com/another/page",
@@ -705,7 +705,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
       "short_url": "http://localhost:8000/def456",
       "title": "Another Example Page",
       "clicks": 18,
-      "created_at": "2023-05-16T10:15:00Z"
+      "created_at": "2025-05-16T10:15:00Z"
     }
   ]
 }
@@ -746,7 +746,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
       "qr_code_url": "http://localhost:8000/qrcode/qr123",
       "title": "Example Website Homepage",
       "scans": 35,
-      "created_at": "2023-05-15T14:30:00Z"
+      "created_at": "2025-05-15T14:30:00Z"
     },
     {
       "original_url": "https://example.com/another/url",
@@ -754,7 +754,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
       "qr_code_url": "http://localhost:8000/qrcode/qr456",
       "title": "Another Example Page",
       "scans": 24,
-      "created_at": "2023-05-16T10:15:00Z"
+      "created_at": "2025-05-16T10:15:00Z"
     }
   ]
 }
@@ -795,7 +795,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
       "barcode_url": "http://localhost:8000/barcode/bar123",
       "title": "Example Website Homepage",
       "scans": 28,
-      "created_at": "2023-05-15T14:30:00Z"
+      "created_at": "2025-05-15T14:30:00Z"
     },
     {
       "original_url": "https://example.com/another/url",
@@ -803,7 +803,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
       "barcode_url": "http://localhost:8000/barcode/bar456",
       "title": "Another Example Page",
       "scans": 16,
-      "created_at": "2023-05-16T10:15:00Z"
+      "created_at": "2025-05-16T10:15:00Z"
     }
   ]
 }
@@ -833,7 +833,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "short_code": "abc123",
   "short_url": "http://localhost:8000/abc123",
   "title": "Example Website Homepage",
-  "created_at": "2023-05-15T14:30:00Z",
+  "created_at": "2025-05-15T14:30:00Z",
   "owner": {
     "id": 42,
     "username": "lydiagao"
@@ -841,9 +841,9 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "clicks": 42,
   "click_data": {
     "daily": [
-      { "date": "2023-05-15", "clicks": 10 },
-      { "date": "2023-05-16", "clicks": 15 },
-      { "date": "2023-05-17", "clicks": 17 }
+      { "date": "2025-05-15", "clicks": 10 },
+      { "date": "2025-05-16", "clicks": 15 },
+      { "date": "2025-05-17", "clicks": 17 }
     ],
     "referrers": [
       { "source": "direct", "count": 20 },
@@ -891,7 +891,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "qr_code_id": "qr123",
   "qr_code_url": "http://localhost:8000/qrcode/qr123",
   "title": "Example Website Homepage",
-  "created_at": "2023-05-15T14:30:00Z",
+  "created_at": "2025-05-15T14:30:00Z",
   "owner": {
     "id": 42,
     "username": "lydiagao"
@@ -899,9 +899,9 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "scans": 35,
   "scan_data": {
     "daily": [
-      { "date": "2023-05-15", "scans": 8 },
-      { "date": "2023-05-16", "scans": 12 },
-      { "date": "2023-05-17", "scans": 15 }
+      { "date": "2025-05-15", "scans": 8 },
+      { "date": "2025-05-16", "scans": 12 },
+      { "date": "2025-05-17", "scans": 15 }
     ],
     "devices": [
       { "type": "iOS", "count": 20 },
@@ -938,7 +938,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "barcode_id": "bar123",
   "barcode_url": "http://localhost:8000/barcode/bar123",
   "title": "Example Website Homepage",
-  "created_at": "2023-05-15T14:30:00Z",
+  "created_at": "2025-05-15T14:30:00Z",
   "owner": {
     "id": 42,
     "username": "lydiagao"
@@ -946,9 +946,9 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "scans": 28,
   "scan_data": {
     "daily": [
-      { "date": "2023-05-15", "scans": 5 },
-      { "date": "2023-05-16", "scans": 10 },
-      { "date": "2023-05-17", "scans": 13 }
+      { "date": "2025-05-15", "scans": 5 },
+      { "date": "2025-05-16", "scans": 10 },
+      { "date": "2025-05-17", "scans": 13 }
     ],
     "devices": [
       { "type": "iOS", "count": 16 },
@@ -988,8 +988,8 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 ```json
 {
   "period": "month",
-  "start_date": "2023-04-17",
-  "end_date": "2023-05-17",
+  "start_date": "2025-04-17",
+  "end_date": "2025-05-17",
   "total_urls": 125,
   "total_qrcodes": 84,
   "total_barcodes": 62,
@@ -998,7 +998,7 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
   "total_barcode_scans": 1253,
   "daily_activity": [
     {
-      "date": "2023-05-17",
+      "date": "2025-05-17",
       "clicks": 152,
       "qr_scans": 87,
       "barcode_scans": 65
@@ -1031,8 +1031,6 @@ Each resource (URL, QR code, barcode) automatically extracts and stores the titl
 }
 ```
 
----
-
 ## Environment Variables
 
 The application requires the following environment variables to be set:
@@ -1047,8 +1045,6 @@ The application requires the following environment variables to be set:
 | JWT_SECRET         | Secret key for signing JWTs         | None            |
 | JWT_ACCESS_EXPIRE  | Access token expiration in seconds  | 3600 (1 hour)   |
 | JWT_REFRESH_EXPIRE | Refresh token expiration in seconds | 604800 (7 days) |
-
----
 
 ## Website Title Extraction
 
